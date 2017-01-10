@@ -103,6 +103,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', end
 .float-right{
 	float:right;
 }
+
+.search-filter{
+	border: 1px solid #cccccc;
+	float: left;
+	padding: 10px;
+	width: calc(100% - 20px);
+	margin-top: 10px;  
+}
+
 /* Color styles */
 .text-blue{
 	color:#4096ee;

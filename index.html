@@ -23,6 +23,12 @@
 		<button type="button" class="btn button-blue" ng-click="custDets.search()" ng-disabled="!custDets.custdata || !custDets.searchText"><i class="fa fa-search"></i> Search</button>
 		<button type="button" class="btn button-blue" ng-click="custDets.reset()"><i class="fa fa-exchange"></i> Reset</button>
 	</div>
+	
+	<div class="search-filter">
+		<h4>Apply filter:</h4>
+		<input type="checkbox" name="male" ng-click="custDets.filterData('male')"/> Male
+		<input type="checkbox" name="female"  ng-click="custDets.filterData('female')"/> Female  
+	</div>
 
 	<div class="row">
 		<strong ng-if="!custDets.custdata"><i class="fa fa-spinner fa-pulse fa-fw text-blue"></i> Please wait, loading data...</strong>

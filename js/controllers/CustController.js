@@ -10,17 +10,20 @@ function CustController(DataService){
 	vm.custMasterDataCopy = null;
 	vm.custdata = null;
 	vm.searchDropDownOptions = [{label: "First Name",value: "first_name"},{label: "Last Name",value: "last_name"},{label: "Credit card number",value: "credit_card_num"},{label: "Email",value: "email"},{label: "Country",value: "country"},{label: "City",value: "city"}];
-	vm.selectedSearchOpt = vm.searchDropDownOptions[0];
+	vm.selectedSearchOpt = null;
 	vm.currentPage = 1;
 	vm.paginationPageSizes = 10;
 	vm.init = init;
 	vm.getTotalPages = getTotalPages;
 	vm.goToNextPage = goToNextPage;
 	vm.goToPrevPage = goToPrevPage;
+	vm.filterData = filterData;
 	vm.search = search;
 	vm.reset = reset;
 
 	function init(){
+		vm.searchText = null;
+		vm.selectedSearchOpt = vm.searchDropDownOptions[0];
 		if(vm.custMasterDataCopy!=null){
 			vm.custMasterData = angular.copy(vm.custMasterDataCopy);
 			var tmpData = angular.copy(vm.custMasterData)
@@ -70,13 +73,18 @@ function CustController(DataService){
 				vm.custdata.push(value);
 			}
 		});
-		vm.custMasterData = vm.custdata;
+		vm.custMasterData = angular.copy(vm.custdata);
+		var tmpData = angular.copy(vm.custMasterData)
 		vm.custdata = null;
-		vm.custdata = vm.custMasterData.splice(0, vm.paginationPageSizes);
+		vm.custdata = tmpData.splice(0, vm.paginationPageSizes);
 	}
 	
 	function reset(){
 		vm.init();
+	}
+	
+	function filterData(data){
+		
 	}
 	/* vm.gridOptions2 = {
 		enablePaginationControls: true,
