@@ -1,0 +1,127 @@
+﻿body{
+	padding:0px;
+	margin: 0px;
+	background:#f5eee5;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size:14px;
+}
+
+.container{
+	min-height:500px;
+	width:1024px;
+	margin:10px auto;
+	background:#ffffff;
+	padding:20px;
+	height: auto;
+	overflow:auto;
+}
+
+.search-input-wrapper{
+	float:left;
+	width:60%;
+	margin-right: 20px;
+}
+
+.search-input-wrapper input,.search-dropdown-wrapper select{
+	padding:10px;
+	font-size:15px;
+	border-radius:2px;
+	border: 1px solid #ccc;
+	width:100%;
+}
+
+.search-button-wrapper, .search-dropdown-wrapper{
+	float:left;
+	margin-left:10px;
+}
+
+.btn{
+	cursor:pointer;
+}
+
+.button-blue{
+	padding:10px;
+	color: #ffffff;
+	border:1px solid rgb(206,219,233);
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#4096ee+0,4096ee+100;Blue+Flat+%232 */
+background: rgb(64,150,238); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(64,150,238,1) 0%, rgba(64,150,238,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(64,150,238,1) 0%,rgba(64,150,238,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(64,150,238,1) 0%,rgba(64,150,238,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4096ee', endColorstr='#4096ee',GradientType=0 ); /* IE6-9 */
+}
+
+.button-blue[disabled="disabled"], .button-blue:hover[disabled="disabled"]{
+	background:#cccccc;
+	cursor:default;
+}
+
+.search-button-wrapper button:hover{
+background: rgb(73,155,234); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(73,155,234,1) 0%, rgba(32,124,229,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  rgba(73,155,234,1) 0%,rgba(32,124,229,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  rgba(73,155,234,1) 0%,rgba(32,124,229,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#499bea', endColorstr='#207ce5',GradientType=0 ); /* IE6-9 */
+
+}
+
+.row{
+	float:left;
+	margin-top:10px;
+	width:100%;
+}
+
+.table-wrapper{
+	min-height:100px;
+	height:auto;
+	max-height:400px;
+	width:100%;
+	overflow:auto;
+}
+.table{
+    width: 100%;
+    border-spacing: inherit;
+	text-align:left;
+}
+.table tr th{
+	padding:7px;
+	vertical-align: bottom;
+	border-bottom:2px solid #ccc;
+}
+.table tr td{
+	padding:7px;
+	vertical-align: bottom;
+	border-bottom:1px solid #ccc;
+}
+.table tbody tr:nth-child(even){
+	background:#ffffff;
+}
+.table tbody tr:nth-child(odd){
+	background:#efefef;
+}
+
+.float-right{
+	float:right;
+}
+/* Color styles */
+.text-blue{
+	color:#4096ee;
+}
+.text-red{
+	color:#ff6347;
+}
+
+
+
+/* Grid Styling */
+.myGrid {
+    width: 100%;
+}
+
+.ui-grid-pager-control input{
+	padding: 0px 5px;
+}
+
+.ui-grid-pager-control .ui-grid-pager-max-pages-number{
+	vertical-align: middle;
+}
