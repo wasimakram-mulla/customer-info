@@ -14,20 +14,54 @@
 <div class="container">
 	<h3>Search customer</h3>
 	<div class="search-input-wrapper">
-		<input type="text" placeholder="Enter customer details..." ng-model="custDets.searchText" ng-disabled="!custDets.custdata"/>
+		<input type="text" placeholder="Enter customer details..." ng-model="custDets.searchText" ng-disabled="!custDets.custdata || custDets.activeAdvanceFilters"/>
 	</div>
 	<div class="search-dropdown-wrapper">
-		<select ng-options="item.label for item in custDets.searchDropDownOptions" ng-model="custDets.selectedSearchOpt" ng-disabled="!custDets.custdata"></select>
+		<select ng-options="item.label for item in custDets.searchDropDownOptions" ng-model="custDets.selectedSearchOpt" ng-disabled="!custDets.custdata || custDets.activeAdvanceFilters"></select>
 	</div>
 	<div class="search-button-wrapper">
-		<button type="button" class="btn button-blue" ng-click="custDets.search()" ng-disabled="!custDets.custdata || !custDets.searchText"><i class="fa fa-search"></i> Search</button>
+		<button type="button" class="btn button-blue" ng-click="custDets.search()" ng-disabled="!custDets.custdata || !custDets.searchText || custDets.activeAdvanceFilters"><i class="fa fa-search"></i> Search</button>
 		<button type="button" class="btn button-blue" ng-click="custDets.reset()"><i class="fa fa-exchange"></i> Reset</button>
 	</div>
 	
-	<div class="search-filter">
+	<div class="col-md-12">
+		<h5><a href="javascript:void(0);" ng-click="custDets.showAdvanceFilters()">
+			<span ng-if="custDets.activeAdvanceFilters">Hide</span>
+			<span ng-if="!custDets.activeAdvanceFilters">Show</span> advance filters <i class="fa" ng-class="{'fa-caret-up': custDets.activeAdvanceFilters, 'fa-caret-down': custDets.activeAdvanceFilters == false}"></i>
+		</a></h5>
+	</div>
+	
+	<div class="search-filter" ng-show="custDets.activeAdvanceFilters">
 		<h4>Apply filter:</h4>
-		<input type="checkbox" name="male" ng-click="custDets.filterData('male')"/> Male
-		<input type="checkbox" name="female"  ng-click="custDets.filterData('female')"/> Female  
+		<div class="row">
+			<strong>Gender:</strong> 
+			<input type="checkbox" name="male" ng-click="custDets.filterGender()" ng-model="custDets.genderMale" ng-value="male"/> Male
+			<input type="checkbox" name="female"  ng-click="custDets.filterGender()" ng-model="custDets.genderFemale" ng-value="female"/> Female  
+			<br/>
+			<br/>
+		</div>
+		<div class="row">
+		<strong class="col-md-12">Country:</strong>
+			<div class="col-md-3" ng-repeat="country in custDets.uniqueCountries">
+				<input type="checkbox" name="male" ng-click="::custDets.filterCountry(country.country)"/> {{::country.country}}
+			</div>
+		<br/>
+		<br/>
+		</div>
+		<div class="row">
+		<strong class="col-md-12">Currency:</strong>
+			<div class="col-md-3" ng-repeat="currency in custDets.uniqueCurrencies">
+				<input type="checkbox" name="male" ng-click="::custDets.filterCurrency(currency.currency)"/> {{::currency.currency}}
+			</div>
+		<br/>
+		<br/>
+		</div>
+		<div class="row">
+		<strong class="col-md-12">Credit card types:</strong>
+			<div class="col-md-3" ng-repeat="cctype in custDets.uniqueCreditCardTypes">
+				<input type="checkbox" name="male" ng-click="::custDets.filterCCType(cctype.credit_card_type)"/> {{::cctype.credit_card_type}}
+			</div>
+		</div>
 	</div>
 
 	<div class="row">
@@ -38,12 +72,24 @@
 				<thead>
 					<tr>
 						<th>#</th>
-						<th>First Name</th>
-						<th>Last Name</th>
+						<th>
+							<a href="javascript:void(0)" ng-click="custDets.sortData('fname')">
+								First Name <i class="fa" ng-class="{'fa-caret-down':custDets.sortAsc.firstName,'fa-caret-up':custDets.sortAsc.firstName==false,'fa-minus':custDets.sortAsc.firstName==null}"></i>
+							</a>
+						</th>
+						<th>
+							<a href="javascript:void(0)" ng-click="custDets.sortData('lname')">
+							Last Name <i class="fa" ng-class="{'fa-caret-down':custDets.sortAsc.lastName,'fa-caret-up':custDets.sortAsc.lastName==false,'fa-minus':custDets.sortAsc.lastName==null}"></i>
+							</a>
+						</th>
 						<th>Gender</th>
-						<th>Country</th>
+						<th>
+							<a href="javascript:void(0)" ng-click="custDets.sortData('country')">
+							Country <i class="fa" ng-class="{'fa-caret-down':custDets.sortAsc.country,'fa-caret-up':custDets.sortAsc.country==false,'fa-minus':custDets.sortAsc.country==null}"></i>
+						</th>
 						<th>Currency</th>
 						<th>Credit card Number</th>
+						<th>Credit card Type</th>
 						<th>Email</th>
 					</tr>
 				</thead>
@@ -56,10 +102,11 @@
 						<td>{{cust.country}}</td>
 						<td>{{cust.currency}}</td>
 						<td>{{cust.credit_card_num}}</td>
+						<td>{{cust.credit_card_type}}</td>
 						<td>{{cust.email}}</td>
 					</tr>
 					<tr ng-if="custDets.custdata.length<=0">
-						<td colspan="8" class="text-red"><strong><i class="fa fa-exclamation-triangle"></i> Cannot find any records</strong></td>
+						<td colspan="9" class="text-red"><strong><i class="fa fa-exclamation-triangle"></i> Cannot find any records</strong></td>
 					</tr>
 				<tbody>
 			</table>
@@ -68,7 +115,11 @@
 		<div class="pagination-wrapper" ng-if="custDets.custdata">
 		<p>Current page: <em>{{ custDets.currentPage }}</em> of <em>{{ custDets.getTotalPages() }}</em></p>
 		<button type="button" class="btn button-blue" ng-click="custDets.goToPrevPage()" ng-disabled="custDets.currentPage == 1"><i class="fa fa-chevron-left"></i></button>
+		
 		<button type="button" class="btn button-blue" ng-click="custDets.goToNextPage()" ng-disabled="custDets.currentPage == custDets.getTotalPages()"><i class="fa fa-chevron-right"></i></button>
+		
+		<select class="add-pagination" ng-options="item for item in custDets.paginationOptions" ng-model="custDets.selectedPagination" ng-change="custDets.changePaginationValue()"></select><span> rows / page</span>
+		
 		<label class="float-right">Total items: <strong>{{custDets.custMasterData.length}}</strong></label>
 		</div>
 		<!-- <div ng-if="custDets.custdata" ui-grid="custDets.gridOptions2" ui-grid-pagination class="myGrid"></div> -->
