@@ -41,6 +41,8 @@ function CustController(DataService){
 	vm.sortData = sortData;
 	vm.reset = reset;
 
+	
+	/** This is the first method called, where it will initialize all the functional modules of this app. The data from this method is loaded only once and if this method is called again the data is preserved and used again instead of giving a rest call */
 	function init(){
 		vm.searchText = null;
 		vm.genderMale = null;
@@ -91,10 +93,12 @@ function CustController(DataService){
 		}
 	};
 
+	/** This method will only return number of pages you can jump next according to pagination  */
 	function getTotalPages(){
 		return Math.ceil(vm.custMasterData.length / vm.paginationPageSizes);
 	}
 
+	/** This method will help in jumping to the next slot of values from data according to pagination */
 	function goToNextPage(){
 		var tmpData = angular.copy(vm.custMasterData);
 		vm.custdata = tmpData.splice((vm.currentPage*vm.paginationPageSizes), vm.paginationPageSizes);
@@ -103,6 +107,7 @@ function CustController(DataService){
 		vm.sortAsc = {firstName:null, lastName:null, country:null};
 	}
 
+	/** This method will help in jumping to the previous slot of values from data according to pagination */
 	function goToPrevPage(){
 		var tmpData = angular.copy(vm.custMasterData);
 		vm.currentPage--;
@@ -111,6 +116,7 @@ function CustController(DataService){
 		vm.sortAsc = {firstName:null, lastName:null, country:null};
 	}
 
+	/** This method searches value according to the value in search text box and the combo box, this method is smartly written to avoid multiple call for each selection, it will check the value from combo box and will search and return value accordingly */
 	function search(){
 		vm.custMasterData = angular.copy(vm.custMasterDataCopy);
 		vm.custdata = new Array();
@@ -126,16 +132,19 @@ function CustController(DataService){
 		vm.sortAsc = {firstName:null, lastName:null, country:null};
 	}
 
+	/** This method will reset the pagination, with all the features */
 	function reset(){
 		vm.paginationPageSizes = 10;
 		vm.selectedPagination = vm.paginationOptions[0];
 		vm.init();
 	}
 
+	/** An Extra method just for simplicity of code and avoid confusion for gender selection */
 	function filterGender(){
 		vm.filterData();
 	}
 
+	/** This method will tackle filteration of data from all the selections done in checkboxes (Advance filter) */
 	function filterData(){
 		vm.custMasterData = angular.copy(vm.custMasterDataCopy);
 		var tmpData = new Array();
@@ -204,6 +213,7 @@ function CustController(DataService){
 			vm.custdata = newTmpData.splice(0, vm.paginationPageSizes);
 	}
 
+	/** This method is called while initialization and will copy all the unique countries in an separate array named- uniqueCountries */
 	function getUniqueCountries(){
 		var tmpData = new Array();
 		tmpData= angular.copy(vm.custMasterData);
@@ -220,6 +230,7 @@ function CustController(DataService){
 		tmpData = null;
 	}
 
+	/** This method is called while initialization and will copy all the unique currencies in an separate array named- uniqueCurrencies */
 	function getUniquecurrency(){
 		var tmpData = new Array();
 		tmpData= angular.copy(vm.custMasterData);
@@ -236,6 +247,7 @@ function CustController(DataService){
 		tmpData = null;
 	}
 
+	/** This method is called while initialization and will copy all the unique credit card types in an separate array named- uniqueCreditCardTypes */
 	function getUniqueCreditCardTypes(){
 		var tmpData = new Array();
 		tmpData= angular.copy(vm.custMasterData);
@@ -252,6 +264,7 @@ function CustController(DataService){
 		tmpData = null;
 	}
 
+	/** This method will create a new array of countries that are selected/checked from checkbox which will later call the filterData method */
 	function filterCountry(country){
 		if(vm.selectedCountries.length > 0){
 			var flag= false;
@@ -278,6 +291,7 @@ function CustController(DataService){
 		vm.filterData();
 	}
 
+	/** This method will create a new array of currencies that are selected/checked from checkbox which will later call the filterData method */
 	function filterCurrency(currency){
 		if(vm.selectedCurrencies.length > 0){
 			var flag= false;
@@ -304,6 +318,7 @@ function CustController(DataService){
 		vm.filterData();
 	}
 
+	/** This method will create a new array of credit card types that are selected/checked from checkbox which will later call the filterData method */
 	function filterCCType(cctype){
 		if(vm.selectedCCType.length > 0){
 			var flag= false;
@@ -330,6 +345,7 @@ function CustController(DataService){
 		vm.filterData();
 	}
 	
+	/** This method will just show the box of all checkboxes i.e Advance filter and will also disable the search text box, search combo box and search button and vice versa */
 	function showAdvanceFilters(){
 		vm.searchText = null;
 		if(vm.activeAdvanceFilters == true){
@@ -340,6 +356,7 @@ function CustController(DataService){
 		}
 	}
 	
+	/** This method is a generic method to sort columns from the table in ascending and decending manner, the column is sorted according to the value in sortType variable */
 	function sortData(sortType){
 		if(sortType == 'fname'){
 			if(vm.sortAsc.firstName == false || vm.sortAsc.firstName == null){
@@ -415,10 +432,13 @@ function CustController(DataService){
 		}
 	}
 	
+	/** This method will change the pagination value i.e number of rows we will see in the table according to the value selected */
 	function changePaginationValue(paginationVal){
 		vm.paginationPageSizes = parseInt(vm.selectedPagination);
 		vm.init();
 	}
+	
+	/** Below code is commented because this code creates a new grid with the help of angular's UI-grid plugin. */
 	/* vm.gridOptions2 = {
 		enablePaginationControls: true,
 		paginationPageSizes: [50, 75, 100, 150, 200, 300],
@@ -428,6 +448,8 @@ function CustController(DataService){
 	  vm.gridOptions2.onRegisterApi = function (gridApi) {
 		vm.gridApi2 = gridApi;
 	  } */
+	  
+	/** Initialise application */
 	vm.init();
 }
 })();

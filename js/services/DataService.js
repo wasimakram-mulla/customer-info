@@ -9,6 +9,7 @@ function DataService($q, $http){
 	vm.getCustomerData = getCustomerData;
 	vm.getCustomerDataOffline = getCustomerDataOffline;
 
+	/** This method gets the data from online link */
 	function getCustomerData(){
 		return $q(function(resolve, reject) {
 			$http({
@@ -22,6 +23,7 @@ function DataService($q, $http){
 		});
 	};
 	
+	/** This method is called if the online link returns any '40x' error and will load the data from a offline JSON file */
 	function getCustomerDataOffline(){
 		console.log('Offline service called');
 		return $q(function(resolve, reject) {
